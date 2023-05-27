@@ -19,9 +19,9 @@ import transformers
 from torch.nn.utils.rnn import pad_sequence
 import argparse
 from transformers import (
-    AutoTokenizer, 
-    AutoModelForCausalLM, 
-    set_seed, 
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    set_seed,
     Seq2SeqTrainer,
     BitsAndBytesConfig
 )
@@ -66,14 +66,14 @@ class DataArguments:
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of training examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_eval_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of evaluation examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     source_max_len: int = field(
@@ -197,17 +197,17 @@ class GenerationArguments:
     num_beams: Optional[int] = field(default=1)
     num_beam_groups: Optional[int] = field(default=1)
     penalty_alpha: Optional[float] = field(default=None)
-    use_cache: Optional[bool] = field(default=True) 
+    use_cache: Optional[bool] = field(default=True)
 
     # Hyperparameters for logit manipulation
     temperature: Optional[float] = field(default=1.0)
     top_k: Optional[int] = field(default=50)
     top_p: Optional[float] = field(default=1.0)
     typical_p: Optional[float] = field(default=1.0)
-    diversity_penalty: Optional[float] = field(default=0.0) 
-    repetition_penalty: Optional[float] = field(default=1.0) 
+    diversity_penalty: Optional[float] = field(default=0.0)
+    repetition_penalty: Optional[float] = field(default=1.0)
     length_penalty: Optional[float] = field(default=1.0)
-    no_repeat_ngram_size: Optional[int] = field(default=0) 
+    no_repeat_ngram_size: Optional[int] = field(default=0)
 
 def find_all_linear_names(args, model):
     cls = bnb.nn.Linear4bit if args.bits == 4 else (bnb.nn.Linear8bitLt if args.bits == 8 else torch.nn.Linear)
@@ -350,9 +350,9 @@ def print_trainable_parameters(args, model):
     print(f"trainable params: {trainable_params} || all params: {all_param} || trainable: {100 * trainable_params / all_param}")
 
 def smart_tokenizer_and_embedding_resize(
-    special_tokens_dict: Dict,
-    tokenizer: transformers.PreTrainedTokenizer,
-    model: transformers.PreTrainedModel,
+        special_tokens_dict: Dict,
+        tokenizer: transformers.PreTrainedTokenizer,
+        model: transformers.PreTrainedModel,
 ):
     """Resize tokenizer and embedding.
 
@@ -397,10 +397,10 @@ class DataCollatorForCausalLM(object):
         )
         # Build the input and labels for causal LM
         input_ids = []
-        labels = [] 
+        labels = []
         for tokenized_source, tokenized_target in zip(
-            tokenized_sources_with_prompt['input_ids'], 
-            tokenized_targets['input_ids']
+                tokenized_sources_with_prompt['input_ids'],
+                tokenized_targets['input_ids']
         ):
             if not self.predict_with_generate:
                 input_ids.append(torch.tensor(tokenized_source + tokenized_target))
@@ -488,6 +488,8 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
     """
     # Load dataset.
     # Alpaca
+    if args.dataset == 'train.json':
+        dataset = load_dataset("train.json")
     if args.dataset == 'alpaca':
         dataset = load_dataset("tatsu-lab/alpaca")
         dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
@@ -544,14 +546,14 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
             train_dataset = train_dataset.map(lambda x: {'length': len(x['input']) + len(x['output'])})
 
     data_collator = DataCollatorForCausalLM(
-        tokenizer=tokenizer, 
+        tokenizer=tokenizer,
         source_max_len=args.source_max_len,
         target_max_len=args.target_max_len,
         train_on_source=args.train_on_source,
         predict_with_generate=args.predict_with_generate,
     )
     return dict(
-        train_dataset=train_dataset if args.do_train else None, 
+        train_dataset=train_dataset if args.do_train else None,
         eval_dataset=eval_dataset if args.do_eval else None,
         predict_dataset=eval_dataset if args.do_predict else None,
         data_collator=data_collator
@@ -581,7 +583,7 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
-    
+
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
     if completed_training:
@@ -617,13 +619,13 @@ def train():
             {
                 "eos_token": tokenizer.convert_ids_to_tokens(model.config.eos_token_id),
                 "bos_token": tokenizer.convert_ids_to_tokens(model.config.bos_token_id),
-                "unk_token": tokenizer.convert_ids_to_tokens(model.config.pad_token_id), 
+                "unk_token": tokenizer.convert_ids_to_tokens(model.config.pad_token_id),
             }
         )
 
     data_module = make_data_module(tokenizer=tokenizer, args=args)
     trainer = Seq2SeqTrainer(
-        model=model, 
+        model=model,
         tokenizer=tokenizer,
         args=training_args,
         **{k:v for k,v in data_module.items() if k != 'predict_dataset'},
@@ -674,7 +676,7 @@ def train():
                         preds.append(torch.argmax(logit_abcd).item())
                     labels = labels[labels != IGNORE_INDEX].view(-1, 2)[:,0]
                     refs += [abcd_idx.index(label) for label in labels.tolist()]
-                    
+
                     loss_mmlu += loss.item()
                 # Extract results by subject.
                 results = {'mmlu_loss':loss_mmlu/len(data_loader)}
