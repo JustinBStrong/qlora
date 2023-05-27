@@ -460,36 +460,9 @@ def extract_alpaca_dataset(example):
         prompt_format = PROMPT_DICT["prompt_no_input"]
     return {'input': prompt_format.format(**example)}
 
-def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
-    """
-    Make dataset and collator for supervised fine-tuning.
-    Datasets are expected to have the following columns: { `input`, `output` }
-
-    Available datasets to be selected with `dataset` argument:
-        - alpaca, 52002 examples
-        - alpaca cleaned, 51942 examples   
-        - chip2 (OIG), 210289 examples
-        - self-instruct, 82612 examples
-        - hh-rlhf (Anthropic), 160800 examples
-        - longform, 23.7k examples
-
-    Coming soon:
-        - unnatural instructions core, 66010 examples
-        - unnatural instructions full, 240670 examples
-        - alpaca-gpt4, 52002 examples
-        - unnatural-instructions-gpt4, 9000 examples
-        - oa-rlhf (OpenAssistant) primary message tree only, 9209 examples
-        - oa-rlhf-assistant (OpenAssistant) all assistant  replies with ranking
-        - supernatural-instructions, 69624 examples (same as paper with 100 ex/task more can be used)
-        - flan (FLAN v2), up to 20M examples available
-
-    Not Available:
-        - vicuna, not released at the moment.
-    """
-    # Load dataset.
-    # Alpaca
-    if args.dataset == 'train.json':
-        dataset = load_dataset("train.json")
+def checkDataset(args) :
+    if args.dataset == 'data/train.json':
+        dataset = load_dataset("data/train.json")
     if args.dataset == 'alpaca':
         dataset = load_dataset("tatsu-lab/alpaca")
         dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
@@ -523,6 +496,37 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
         raise NotImplementedError("Vicuna data was not released.")
     else:
         raise NotImplementedError(f"Dataset {args.dataset} not implemented yet.")
+    return dataset
+
+def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
+    """
+    Make dataset and collator for supervised fine-tuning.
+    Datasets are expected to have the following columns: { `input`, `output` }
+
+    Available datasets to be selected with `dataset` argument:
+        - alpaca, 52002 examples
+        - alpaca cleaned, 51942 examples   
+        - chip2 (OIG), 210289 examples
+        - self-instruct, 82612 examples
+        - hh-rlhf (Anthropic), 160800 examples
+        - longform, 23.7k examples
+
+    Coming soon:
+        - unnatural instructions core, 66010 examples
+        - unnatural instructions full, 240670 examples
+        - alpaca-gpt4, 52002 examples
+        - unnatural-instructions-gpt4, 9000 examples
+        - oa-rlhf (OpenAssistant) primary message tree only, 9209 examples
+        - oa-rlhf-assistant (OpenAssistant) all assistant  replies with ranking
+        - supernatural-instructions, 69624 examples (same as paper with 100 ex/task more can be used)
+        - flan (FLAN v2), up to 20M examples available
+
+    Not Available:
+        - vicuna, not released at the moment.
+    """
+    # Load dataset.
+    # Alpaca
+    dataset=checkDataset(args)
 
     # Split train/eval, reduce size
     if args.do_eval or args.do_predict:
@@ -574,6 +578,7 @@ def get_last_checkpoint(checkpoint_dir):
     return None, False # first training
 
 def train():
+
     hfparser = transformers.HfArgumentParser((
         ModelArguments, DataArguments, TrainingArguments, GenerationArguments
     ))
@@ -583,7 +588,7 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
-
+    checkDataset(args)
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
     if completed_training:
