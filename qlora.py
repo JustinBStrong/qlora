@@ -462,7 +462,7 @@ def extract_alpaca_dataset(example):
 
 def checkDataset(args) :
     if args.dataset == 'train.json':
-        dataset = load_dataset(name="train.json")
+        dataset = load_dataset(name="train.json", path="")
     if args.dataset == 'alpaca':
         dataset = load_dataset("tatsu-lab/alpaca")
         dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
