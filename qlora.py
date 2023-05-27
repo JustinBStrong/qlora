@@ -462,7 +462,7 @@ def extract_alpaca_dataset(example):
 
 def checkDataset(args) :
     if args.dataset == 'data/train.json':
-        dataset = load_dataset("data/train.json")
+        dataset = load_dataset(name="train.json")
     if args.dataset == 'alpaca':
         dataset = load_dataset("tatsu-lab/alpaca")
         dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
@@ -578,10 +578,11 @@ def get_last_checkpoint(checkpoint_dir):
     return None, False # first training
 
 def train():
-
+    print("starting training")
     hfparser = transformers.HfArgumentParser((
         ModelArguments, DataArguments, TrainingArguments, GenerationArguments
     ))
+    print('parsing args')
     model_args, data_args, training_args, generation_args, extra_args = \
         hfparser.parse_args_into_dataclasses(return_remaining_strings=True)
     training_args.generation_config = transformers.GenerationConfig(**vars(generation_args))
