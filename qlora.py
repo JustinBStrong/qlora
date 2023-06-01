@@ -461,7 +461,7 @@ def extract_alpaca_dataset(example):
     return {'input': prompt_format.format(**example)}
 
 def checkDataset(args) :
-    dataset = load_dataset(format='json', data_files="train-dfhdfghdfghfhwrthwrth.json", path="/content/qlora/dataset/train-dfhdfghdfghfhwrthwrth.json")
+    dataset = load_dataset(format='json', path="/content/qlora/dataset/train-dfhdfghdfghfhwrthwrth.json")
     # if args.dataset == 'alpaca':
     #     dataset = load_dataset("tatsu-lab/alpaca")
     #     dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
