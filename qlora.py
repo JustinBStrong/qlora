@@ -465,8 +465,7 @@ def checkDataset(args) :
     path = '/content/qlora/dataset/train-dfhdfghdfghfhwrthwrth.json'
     print(os.path.isfile(path))
     dataset = load_dataset('json', data_files='/content/qlora/dataset/train-dfhdfghdfghfhwrthwrth.json', cache_dir='my_cache', ignore_verifications=True)
-    for example in dataset:
-        print(example)
+    print(dataset.values())
     print("####### COMPLETE LOADING DATASET ########")
 
     # if args.dataset == 'alpaca':
