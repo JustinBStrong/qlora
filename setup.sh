@@ -14,8 +14,9 @@ conda create --name qlora_env --file requirements.txt
 
 # Activate the conda environment
 source activate qlora_env
-
+echo "######### listing toolkit ############ "
 conda list cudatoolkit
+echo "######## Done listing toolkit ######## "
 
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
 #pip install -r requirements.txt
