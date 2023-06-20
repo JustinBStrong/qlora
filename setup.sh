@@ -23,16 +23,16 @@ pip install -r requirements.txt
 
 # Install CUDA Toolkit in the conda environment
 conda install cudatoolkit=11.8 -y
-echo "######### listing toolkit ############ "
-conda list cudatoolkit
-echo "######## Done listing toolkit ######## "
+
 
 #conda install pytorch torchvision -c pytorch
 
 # Assuming that the CUDA toolkit has been installed in the default location
-#export PATH="/usr/local/cuda/bin:$PATH"
-#export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
-
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+echo "######### listing toolkit ############ "
+conda list cudatoolkit
+echo "######## Done listing toolkit ######## "
 # Install additional packages
 #pip install -q -U bitsandbytes huggingface-hub
 #pip install -q -U git+https://github.com/huggingface/transformers.git
