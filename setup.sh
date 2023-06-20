@@ -28,5 +28,8 @@ pip install -q -U git+https://github.com/huggingface/transformers.git
 pip install -q -U git+https://github.com/huggingface/peft.git
 pip install -q -U git+https://github.com/huggingface/accelerate.git
 
+## Fix issue with protoc
+pip install protobuf==3.20.0
+
 # Log in to huggingface-cli
 huggingface-cli login --token=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
