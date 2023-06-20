@@ -31,7 +31,7 @@ pip install -q -U bitsandbytes huggingface-hub
 pip install -q -U git+https://github.com/huggingface/transformers.git
 pip install -q -U git+https://github.com/huggingface/peft.git
 pip install -q -U git+https://github.com/huggingface/accelerate.git
-pip install bitsandbytes transformers datasets evaluate nltk peft
+pip install bitsandbytes-cuda117 transformers datasets evaluate nltk peft
 
 ## Fix issue with protoc
 pip install protobuf==3.20.0
