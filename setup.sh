@@ -8,7 +8,6 @@ fi
 
 # Add Anaconda to PATH
 export PATH="$HOME/anaconda3/bin:$PATH"
-hash -r conda
 
 # Create a conda environment and install requirements
 conda create --name qlora_env --file requirements.txt
@@ -39,3 +38,5 @@ pip install protobuf==3.20.0
 
 # Log in to huggingface-cli
 huggingface-cli login --token=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
+
+python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 40000
