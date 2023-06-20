@@ -19,7 +19,7 @@ conda list cudatoolkit
 echo "######## Done listing toolkit ######## "
 
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
-#pip install -r requirements.txt
+pip install -r requirements.txt
 
 # Install CUDA Toolkit in the conda environment
 #conda install cudatoolkit=11.0 -y
@@ -40,6 +40,6 @@ echo "######## Done listing toolkit ######## "
 #pip install protobuf==3.20.0
 
 # Log in to huggingface-cli
-#huggingface-cli login --token=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
+huggingface-cli login --token=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
 
-#python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 80000 --max_eval_samples 200
+python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 80000 --max_eval_samples 200
