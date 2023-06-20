@@ -38,7 +38,7 @@ echo "######## Done listing toolkit ######## "
 #pip install -q -U git+https://github.com/huggingface/transformers.git
 #pip install -q -U git+https://github.com/huggingface/peft.git
 #pip install -q -U git+https://github.com/huggingface/accelerate.git
-pip install bitsandbytes transformers datasets evaluate nltk peft
+pip install -q -U bitsandbytes-cuda118 transformers datasets evaluate nltk peft transformers accelerate huggingface-hub
 
 ## Fix issue with protoc
 #pip install protobuf==3.20.0
@@ -46,4 +46,4 @@ pip install bitsandbytes transformers datasets evaluate nltk peft
 # Log in to huggingface-cli
 huggingface-cli login --token=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
 
-python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 80000 --max_eval_samples 200
+python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 40000 --max_eval_samples 200
