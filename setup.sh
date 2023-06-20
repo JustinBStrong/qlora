@@ -20,11 +20,13 @@ echo "######## Done listing toolkit ######## "
 
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
 pip install -r requirements.txt
+
+# Install CUDA Toolkit in the conda environment
+conda install cudatoolkit=11.8 -y
 echo "######### listing toolkit ############ "
 conda list cudatoolkit
 echo "######## Done listing toolkit ######## "
-# Install CUDA Toolkit in the conda environment
-#conda install cudatoolkit=11.0 -y
+
 #conda install pytorch torchvision -c pytorch
 
 # Assuming that the CUDA toolkit has been installed in the default location
