@@ -39,4 +39,4 @@ pip install protobuf==3.20.0
 # Log in to huggingface-cli
 huggingface-cli login --token=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
 
-python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 439500 --max_eval_samples 200
+python qlora.py --model_name_or_path "bigcode/starcoderbase" --max_memory_MB 39500 --max_eval_samples 200
