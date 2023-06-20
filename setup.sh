@@ -13,6 +13,9 @@ source activate qlora_env
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
 pip install -r requirements.txt
 
+# Install CUDA Toolkit in the conda environment
+conda install -y cudatoolkit=11.0
+
 # Install additional packages
 pip install -q -U bitsandbytes huggingface-hub
 pip install -q -U git+https://github.com/huggingface/transformers.git
