@@ -14,6 +14,7 @@ conda create --name qlora_env --file requirements.txt
 
 # Activate the conda environment
 source activate qlora_env
+conda list | grep cuda
 echo "######### listing toolkit ############ "
 conda list cudatoolkit
 echo "######## Done listing toolkit ######## "
