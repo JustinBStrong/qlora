@@ -21,11 +21,7 @@ echo "######## Done listing toolkit ######## "
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
 pip install -r requirements.txt
 
-git clone https://github.com/timdettmers/bitsandbytes.git
-cd bitsandbytes
-CUDA_VERSION=117 make cuda117
-python setup.py install
-cd ..
+
 
 # Install CUDA Toolkit in the conda environment
 conda install -c nvidia cuda-toolkit
@@ -35,6 +31,13 @@ conda install -c nvidia cuda-toolkit
 # Assuming that the CUDA toolkit has been installed in the default location
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/ubuntu/anaconda3/pkgs/cuda-cudart-dev-12.1.105-0/lib/libcudart.so"
+
+git clone https://github.com/timdettmers/bitsandbytes.git
+cd bitsandbytes
+CUDA_VERSION=117 make cuda117
+python setup.py install
+cd ..
+
 echo "######### listing toolkit ############ "
 conda list cudatoolkit
 echo "######## Done listing toolkit ######## "
