@@ -22,8 +22,7 @@ echo "######## Done listing toolkit ######## "
 pip install -r requirements.txt
 
 # Install CUDA Toolkit in the conda environment
-conda install cudatoolkit=11.8 -y
-
+conda install -c nvidia cuda-toolkit
 
 #conda install pytorch torchvision -c pytorch
 
@@ -38,7 +37,7 @@ echo "######## Done listing toolkit ######## "
 #pip install -q -U git+https://github.com/huggingface/transformers.git
 #pip install -q -U git+https://github.com/huggingface/peft.git
 #pip install -q -U git+https://github.com/huggingface/accelerate.git
-pip install -q -U bitsandbytes-cuda118 transformers datasets evaluate nltk peft transformers accelerate huggingface-hub
+pip install -q -U transformers datasets evaluate nltk peft transformers accelerate huggingface-hub
 
 ## Fix issue with protoc
 #pip install protobuf==3.20.0
