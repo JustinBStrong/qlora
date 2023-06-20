@@ -15,6 +15,7 @@ pip install -r requirements.txt
 
 # Install CUDA Toolkit in the conda environment
 conda install -y cudatoolkit=11.0
+conda install pytorch torchvision -c pytorch
 
 # Install additional packages
 pip install -q -U bitsandbytes huggingface-hub
