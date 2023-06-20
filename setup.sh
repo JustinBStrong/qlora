@@ -2,8 +2,8 @@
 
 if [ ! -d "$HOME/anaconda3" ]; then
     # Download and install Anaconda
-    wget https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
-    bash Anaconda3-2020.07-Linux-x86_64.sh -b -p $HOME/anaconda3
+    wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
+    bash Anaconda3-2023.03-1-Linux-x86_64.sh -b -p $HOME/anaconda3
 fi
 
 # Add Anaconda to PATH
