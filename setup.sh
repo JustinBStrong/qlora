@@ -21,6 +21,12 @@ echo "######## Done listing toolkit ######## "
 # If any packages are not available in the conda repository, use pip to install them within the conda environment
 pip install -r requirements.txt
 
+git clone https://github.com/timdettmers/bitsandbytes.git
+cd bitsandbytes
+CUDA_VERSION=117 make cuda117
+python setup.py install
+cd ..
+
 # Install CUDA Toolkit in the conda environment
 conda install -c nvidia cuda-toolkit
 
