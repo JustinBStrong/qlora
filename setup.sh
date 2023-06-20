@@ -34,7 +34,7 @@ conda install -c nvidia cuda-toolkit
 
 # Assuming that the CUDA toolkit has been installed in the default location
 export PATH="/usr/local/cuda/bin:$PATH"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/libcudart.so"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/ubuntu/anaconda3/pkgs/cuda-cudart-dev-12.1.105-0/lib/libcudart.so"
 echo "######### listing toolkit ############ "
 conda list cudatoolkit
 echo "######## Done listing toolkit ######## "
