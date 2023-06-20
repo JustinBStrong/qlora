@@ -5,9 +5,10 @@ if [ ! -d "$HOME/anaconda3" ]; then
     wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
     bash Anaconda3-2023.03-1-Linux-x86_64.sh -b -p $HOME/anaconda3
 fi
-hash -r conda
+
 # Add Anaconda to PATH
 export PATH="$HOME/anaconda3/bin:$PATH"
+hash -r conda
 
 # Create a conda environment and install requirements
 conda create --name qlora_env --file requirements.txt
