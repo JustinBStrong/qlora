@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Download and install Anaconda
-wget https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
-bash Anaconda3-2020.07-Linux-x86_64.sh -b
+if [ ! -d "$HOME/anaconda3" ]; then
+    # Download and install Anaconda
+    wget https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
+    bash Anaconda3-2020.07-Linux-x86_64.sh -b -p $HOME/anaconda3
+fi
+
+# Add Anaconda to PATH
+export PATH="$HOME/anaconda3/bin:$PATH"
 
 # Create a conda environment and install requirements
 conda create --name qlora_env --file requirements.txt
