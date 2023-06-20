@@ -19,7 +19,7 @@ source activate qlora_env
 pip install -r requirements.txt
 
 # Install CUDA Toolkit in the conda environment
-conda install cudatoolkit=11.7 -y
+conda install cudatoolkit=11.0 -y
 conda install pytorch torchvision -c pytorch
 
 # Assuming that the CUDA toolkit has been installed in the default location
