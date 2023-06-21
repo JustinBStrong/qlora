@@ -267,7 +267,6 @@ def get_accelerate_model(args, checkpoint_dir):
         device_map='auto',
         max_memory=max_memory,
         quantization_config=BitsAndBytesConfig(
-            load_in_8bit_fp32_cpu_offload=False,
             load_in_4bit=args.bits == 4,
             load_in_8bit=args.bits == 8,
             llm_int8_threshold=6.0,
