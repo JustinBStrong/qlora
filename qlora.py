@@ -239,7 +239,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
         if os.path.exists(pytorch_model_path):
             os.remove(pytorch_model_path)
 
-    def on_save(self, args, state, control, **kwargs):
+    def on_save(self, args, state=None, control=None, **kwargs):
         self.save_model(args, state, kwargs)
         self.commitSaved(self, args)
         return control
