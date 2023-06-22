@@ -13,6 +13,7 @@ import numpy as np
 from tqdm import tqdm
 import logging
 import bitsandbytes as bnb
+import subprocess
 
 import torch
 import transformers
@@ -607,18 +608,26 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
+
     commands = [
-        'git remote set-url origin https://github.com/justinbstrong/qlora.git',
-        'git config --global user.email "justinbenstrong@gmail.com"',
-        'git config --global user.name "justin strong -- colab commit"',
-        'git status',
-        'git add .',
-        'git commit -m "save model progress from colab"',
-        f"git push {args.commit}"
+    ['git', 'remote', 'set-url', 'origin', 'https://github.com/justinbstrong/qlora.git'],
+    ['git', 'config', '--global', 'user.email', 'justinbenstrong@gmail.com'],
+    ['git', 'config', '--global', 'user.name', 'justin strong -- colab commit'],
+    ['git', 'status'],
+    ['git', 'add', '.'],
+    ['git', 'commit', '-m', 'save model progress from colab'],
+    ['git', 'push', args.commit]  # assuming args.commit is a string
     ]
+
     for command in commands:
-        output = os.popen(command).read()
-        print(output)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+
+        if process.returncode != 0:
+            print(f'Error executing command: {" ".join(command)}\nError message: {stderr.decode()}')
+        else:
+            print(stdout.decode())
+
     checkDataset(args)
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
