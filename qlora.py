@@ -176,7 +176,7 @@ class TrainingArguments(transformers.Seq2SeqTrainingArguments):
     save_strategy: str = field(default='steps', metadata={"help": 'When to save checkpoints'})
     save_steps: int = field(default=250, metadata={"help": 'How often to save a model'})
     save_total_limit: int = field(default=40, metadata={"help": 'How many checkpoints to save before the oldest is overwritten'})
-    commit: int = field(default="none", metadata={"help": 'commit command'})
+    commit: str = field(default="none", metadata={"help": 'commit command'})
 
 @dataclass
 class GenerationArguments:
@@ -607,7 +607,7 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
-    SavePeftModelCallback.save_model(args)
+    SavePeftModelCallback.on_save(args)
     checkDataset(args)
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
