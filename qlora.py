@@ -615,7 +615,7 @@ def train():
     ['git', 'config', '--global', 'user.name', 'justin strong -- colab commit'],
     ['git', 'status'],
     ['git', 'add', '.'],
-    ['git', 'commit', '-m', 'save model progress from colab'],
+    ['git', 'commit', '-m', '"save model progress from colab"'],
     ['git', 'push', args.commit]  # assuming args.commit is a string
     ]
 
