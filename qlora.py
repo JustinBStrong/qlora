@@ -255,10 +255,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
 
     def commitSaved(self, args, state, control, **kwargs):
         commands = [
-            ['git', 'remote', 'set-url', 'origin', 'https://github.com/justinbstrong/qlora.git'],
-            ['git', 'config', '--global', 'user.email', 'justinbenstrong@gmail.com'],
-            ['git', 'config', '--global', 'user.name', 'justin strong -- colab commit'],
-            ['git', 'status'],
+            ['git', 'pull'],
             ['git', 'add', '.'],
             ['git', 'commit', '-m', '"save model progress from colab"'],
             ['git', 'push', args.commit]  # assuming args.commit is a string
@@ -619,7 +616,24 @@ def train():
     )
 
     checkDataset(args)
+    commands = [
+        ['git', 'lfs', 'install'],
+        ['git', 'lfs', 'track', '“.pt”'],
+        ['git', 'remote', 'set-url', 'origin', 'https://github.com/justinbstrong/qlora.git'],
+        ['git', 'config', '--global', 'user.email', 'justinbenstrong@gmail.com'],
+        ['git', 'config', '--global', 'user.name', 'justin strong -- colab commit'],
+        ['git', 'status'],
+        ['git', 'pull'],
+    ]
 
+    for command in commands:
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+
+        if process.returncode != 0:
+            print(f'Error executing command: {" ".join(command)}\nError message: {stderr.decode()}')
+        else:
+            print(stdout.decode())
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
     if completed_training:
         print('Detected that training was already completed!')
