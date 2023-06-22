@@ -608,6 +608,9 @@ def train():
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
     commands = [
+        'git remote set-url origin https://github.com/justinbstrong/qlora.git',
+        'git config --global user.email "justinbenstrong@gmail.com"',
+        'git config --global user.name "justin strong -- colab commit"',
         'git status',
         'git add .',
         'git commit -m "save model progress from colab"',
