@@ -176,6 +176,7 @@ class TrainingArguments(transformers.Seq2SeqTrainingArguments):
     save_strategy: str = field(default='steps', metadata={"help": 'When to save checkpoints'})
     save_steps: int = field(default=250, metadata={"help": 'How often to save a model'})
     save_total_limit: int = field(default=40, metadata={"help": 'How many checkpoints to save before the oldest is overwritten'})
+    commit: int = field(default="none", metadata={"help": 'commit command'})
 
 @dataclass
 class GenerationArguments:
@@ -240,7 +241,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
 
     def on_save(self, args, state, control, **kwargs):
         self.save_model(args, state, kwargs)
-        self.commitSaved()
+        self.commitSaved(self, args)
         return control
 
     def on_train_end(self, args, state, control, **kwargs):
@@ -251,15 +252,14 @@ class SavePeftModelCallback(transformers.TrainerCallback):
         touch(join(args.output_dir, 'completed'))
         self.save_model(args, state, kwargs)
 
-    def commitSaved(self):
+    def commitSaved(self, args):
         commands = [
             'git status',
             'git add .',
             'git commit -m "save model progress from colab"',
-            'git push https://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@github.com/justinbstrong/qlora.git'
+            f"git push {args.commit}"
         ]
         for command in commands:
-            print(f"Executing: {command}")
             output = os.popen(command).read()
             print(output)
 
@@ -595,6 +595,7 @@ def get_last_checkpoint(checkpoint_dir):
     return None, False # first training
 
 def train():
+
     print("starting training")
     hfparser = transformers.HfArgumentParser((
         ModelArguments, DataArguments, TrainingArguments, GenerationArguments
@@ -606,6 +607,7 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
+    SavePeftModelCallback.save_model(args)
     checkDataset(args)
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
