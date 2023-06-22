@@ -240,6 +240,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
 
     def on_save(self, args, state, control, **kwargs):
         self.save_model(args, state, kwargs)
+        self.commitSaved()
         return control
 
     def on_train_end(self, args, state, control, **kwargs):
@@ -249,6 +250,18 @@ class SavePeftModelCallback(transformers.TrainerCallback):
 
         touch(join(args.output_dir, 'completed'))
         self.save_model(args, state, kwargs)
+
+    def commitSaved(self):
+        commands = [
+            'git status',
+            'git add .',
+            'git commit -m "save model progress from colab"',
+            'git push https://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@github.com/justinbstrong/qlora.git'
+        ]
+        for command in commands:
+            print(f"Executing: {command}")
+            output = os.popen(command).read()
+            print(output)
 
 def get_accelerate_model(args, checkpoint_dir):
 
