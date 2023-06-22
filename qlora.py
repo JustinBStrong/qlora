@@ -239,7 +239,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
         if os.path.exists(pytorch_model_path):
             os.remove(pytorch_model_path)
 
-    def on_save(self=None, args=None, state=None, control=None, **kwargs):
+    def on_save(self, args, state, control, **kwargs):
         self.save_model(args, state, kwargs)
         self.commitSaved(self, args)
         return control
@@ -607,7 +607,15 @@ def train():
     args = argparse.Namespace(
         **vars(model_args), **vars(data_args), **vars(training_args)
     )
-    SavePeftModelCallback.on_save(args)
+    commands = [
+        'git status',
+        'git add .',
+        'git commit -m "save model progress from colab"',
+        f"git push {args.commit}"
+    ]
+    for command in commands:
+        output = os.popen(command).read()
+        print(output)
     checkDataset(args)
 
     checkpoint_dir, completed_training = get_last_checkpoint(args.output_dir)
