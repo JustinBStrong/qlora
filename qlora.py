@@ -242,7 +242,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
 
     def on_save(self, args, state, control, **kwargs):
         self.save_model(args, state, kwargs)
-        self.commitSaved(self, args)
+        self.commitSaved(args, state, kwargs)
         return control
 
     def on_train_end(self, args, state, control, **kwargs):
@@ -253,7 +253,7 @@ class SavePeftModelCallback(transformers.TrainerCallback):
         touch(join(args.output_dir, 'completed'))
         self.save_model(args, state, kwargs)
 
-    def commitSaved(self, args):
+    def commitSaved(self, args, state, control, **kwargs):
         commands = [
             ['git', 'remote', 'set-url', 'origin', 'https://github.com/justinbstrong/qlora.git'],
             ['git', 'config', '--global', 'user.email', 'justinbenstrong@gmail.com'],
