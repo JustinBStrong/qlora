@@ -483,7 +483,7 @@ def extract_alpaca_dataset(example):
 def checkDataset(args) :
     print("####### BEGIN LOADING DATASET ########")
     #dataset = load_dataset('json', data_files='/content/qlora/dataset/train-dfhdfghdfghfhwrthwrth.json', cache_dir='my_cache', ignore_verifications=True)
-    dataset = load_dataset("/content/qlora/dataset/final-data/")
+    dataset = load_dataset("/home/ubuntu/qlora/dataset/final-data/")
     print(dataset.values())
     print("####### COMPLETE LOADING DATASET ########")
 
